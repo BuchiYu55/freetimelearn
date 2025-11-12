@@ -14,7 +14,7 @@ class Gomoku:
         self.size = (670, 670)
         self.screen = pygame.display.set_mode(self.size)
         pygame.display.set_caption("Gomoku")
-        self.availablepoints = self.allpoints()  # 调用方法，不是引用
+        self.available_points = self.allpoints()  # 调用方法，不是引用
         
         # 绘制棋盘
         self.draw_board()
@@ -81,7 +81,7 @@ class Gomoku:
             nearby_points = [(x - 44, y - 44), (x, y - 44), (x - 44, y), (x, y)]
         
         # 找到可用的点
-        possiblepoints = [point for point in nearby_points if point in self.availablepoints]
+        possiblepoints = [point for point in nearby_points if point in self.available_points]
         min_distance = float('inf')
         closest_point = None
         
@@ -159,7 +159,7 @@ class Gomoku:
     def reset_game(self):
         """重置游戏"""
         self.mark_points.clear()
-        self.availablepoints = self.allpoints()  # 重新生成可用点
+        self.available_points = self.allpoints()  # 重新生成可用点
         self.who = 'black'
         self.draw_board()  # 重绘棋盘
         
@@ -194,7 +194,7 @@ class Gomoku:
                     
                     if mouse_down_point is None:
                         print("无着点可下")
-                    elif mouse_down_point in self.availablepoints:
+                    elif mouse_down_point in self.available_points:
                         # 下棋
                         stone_color = (0, 0, 0) if self.who == 'black' else (255, 255, 255)
                         pygame.draw.circle(self.screen, stone_color, mouse_down_point, 10)
@@ -205,7 +205,7 @@ class Gomoku:
                         
                         # 记录棋子
                         self.mark_points[mouse_down_point] = self.who
-                        self.availablepoints.remove(mouse_down_point)
+                        self.available_points.remove(mouse_down_point)
                         
                         # 检查获胜
                         winner = self.wincondition()
